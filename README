@@ -1,0 +1,35 @@
+ckup -- backup a directory into Elastic Block Storage (EBS)
+
+Syntax: ec2-backup [-h] [-v volume-id] dir
+
+Program Stages:
+-Checks user input for proper syntax (ex. -v or -h flag).
+-Checks if provided directory is valid, get the total size of directory. 
+	Note: if directory contains files/dir to which user doesn’t have access, program will continue to back up files/dir that user has access to and provides warning statement at end if some files were not backed up due to denied permission. 
+-If volume is provided, compares the volumes size to the directory size. If volume size is greater than directory size, proceeds on creating instances.
+-If volume is not provided, program creates a new volume in user's default AWS region. Size of new volume will be at-least twice the size of provided directory. 
+-Checks if AMI(image-id) is available for same region as the volume. 
+-Creates t2.micro instances of Image-id with default ec2-backup key pair and default security-group in same region/avzone as volume. If EC2_BACKUP_FLAGS_AWS or EC2_BACKUP_FLAGS_SSH is set, then set variables are used for creating instance.
+-Attaches volume to the instance. 
+-Performs a tar archive of directory, SSH instance and writes data to block device. 
+-Terminates the instance.
+-Backup Result - Print Volume-ID, Prints error statement and >0 if not successful.
+
+------
+
+Improvement from HW2:
+
+
+Display of failures: In hw5, catching all ugly failures using try and exception method and displaying only a meaning error statement to the user and terminating gracefully.
+
+Sequential coding, subroutines recommended - this is one of the big improvement in hw5 as well my coding skill. I was able to break out each stages described above into subroutine and call them when necessary. If i had continued writing code using hw2 method, my code would have been x3 or x4 longer. 
+
+Writing to konwn_hosts file - instead using -o StrictHostKeyChecking=no flag for ssh. Using this option flag is not secure but its the only way i could think of without modifying any user files. 
+
+Handling of Volume related failures:
+Non-standard region volumes yields an error - program checks for volumes in all the aws regions instead of just default region. 
+Volume is already attached to an instance - program checks the state of volume as part of describe volume command. Prints error statement if volume in use and terminates gracefully w.o creating any instance.
+Failure on invalid volume - if check volume subroutine does not return result, prints error statement and terminates gracefully.
+
+As recommended, I started to write hw5 code from scratch and I was able simply my code by using subroutines calls and using less complicated module like subprocess for issuing aws commands instead of boto.
+

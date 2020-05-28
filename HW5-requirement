@@ -1,0 +1,57 @@
+CS615A -- Aspects of System Administration
+EC2 Backup
+Summary:
+The objective of this assignment is for you to create a tool able to perform a backup of a given directory to a data storage device in the cloud. In the process, you will (hopefully) learn a few things about writing modular system tools, about command pipelining, the use of some common commands, and gain some insights into a cloud-based storage model.
+
+The detailed specification of the program can be found in this manual page.
+
+This assignment is worth 50 points.
+
+Target platform
+The tool you write will be executed (and graded) on an linux-lab.cs.steven.edu. You are free to develop it in some other environment, but please make sure to test it on this instance type before submitting it. If it does not work on these hosts, you will not get any points.
+
+Programming language
+You are free to choose any programming language you like to implement this tool.
+
+After running 'make', the user should be able to run your command by invoking 'ec2-backup' using the absolute path to your directory from any location without having to install any additional tools or libraries.
+
+Program behaviour and safe assumptions
+Your program will not require any modification of the environment (i.e., you can assume the user has his/her environment set up for EC2), and exection of the program will be exactly as outlined in the manual page ec2-backup(1). Please read this manual page carefully.
+
+In addition to what the manual page notes, you may further assume the following:
+
+the default EC2 security group of the invoking user allows any and all connections to instances placed in that group
+the user's SSH config allows for connecting to hosts ending in amazonaws.com without explicitly specifying an SSH key or dealing with host keys etc.
+the default AWS region for the user is 'us-east-1'
+there are no other AWS defaults configured
+Notes
+Review the feedback you got for HW2; apply it and ensure that your program improves on that prototype.
+
+You may choose to implement the programs in any way you like, including breaking it down into smaller individual tools, scripts or programs.
+
+You probably want to make sure that your program exhibits the various features of good software engineering practices we discussed. Please make sure to consider these and have your submission reflect wherever possible.
+
+It is in your interest to accompany your submission with some commentary on why you chose the programming language, the approach you took, any considerations you might have. The more thought I see you put into the assignment, the better.
+
+You may use code you find on the internet if and only if you explicitly note which parts are not your own and the code in question is licensed such that you can use it in this manner.
+
+This is not a trivial assignment. Please do not delay starting to work on it.
+
+Deliverables and Due Date
+You will submit a single tar(1) archive. The file to submit will be called "$USER-ec2-backup.tar" (where "$USER" is your Stevens username). The archive will extract all files and subdirectories into a directory named $USER.
+
+You will only submit source files -- no binaries or executables of any kind -- as well as a mandatory Makefile as well as your README.
+
+The following is an example sequence of commands to create a valid homework submission:
+
+mkdir $USER
+cd $USER
+vi README
+vi ec2-backup
+[code code code]
+cd ..
+tar cf $USER-ec2-backup.tar $USER
+The due date for this assignment is 2020-04-20 16:00 EDT. Please attach the file to an email sent from your @stevens.edu email address to jschauma@stevens.edu with a subject of "[CS615] HW5".
+
+====
+
